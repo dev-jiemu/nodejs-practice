@@ -1,0 +1,12 @@
+exports.renderProfile = (req, res) => {
+    res.render('profile', {title: '내 정보 - NodeBird'})
+}
+
+exports.renderJoin = (req, res) => {
+    res.render('join', {title: '회원 가입 - NordBird'})
+}
+
+exports.renderMain = (req, res, next) => {
+    const twits = [] // 게시글 목록
+    res.render('main', {title: 'NordBird', twits})
+}
