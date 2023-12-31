@@ -8,10 +8,9 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 const pageRouter = require('./routes/page')
-const {precompile} = require("nunjucks");
 
 const app = express()
-app.set('port', process.env.PORT || 8081)
+app.set('port', process.env.PORT || 8001)
 app.set('view engine', 'html')
 nunjucks.configure('views', {
     express: app,
@@ -21,7 +20,7 @@ nunjucks.configure('views', {
 app.use(morgan('dev'))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(session({
     resave: false,
@@ -30,21 +29,17 @@ app.use(session({
     cookie: {
         httpOnly: true,
         secure: false,
-    }
+    },
 }))
 
 app.use('/', pageRouter)
 
-
-// Not found
 app.use((req, res, next) => {
-    const err = new Error(`${req.method} ${req.url} 라우터가 없습니다.`)
-    err.status = 404;
-    next(err)
+    const error =  new Error(`${req.method} ${req.url} 라우터가 없습니다.`)
+    error.status = 404
+    next(error)
 })
 
-
-// Internal Server Error
 app.use((err, req, res, next) => {
     res.locals.message = err.message
     res.locals.error = process.env.NODE_ENV !== 'production' ? err : {}
@@ -53,5 +48,5 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(app.get('port'), () => {
-    console.log(app.get('port', '번 포트에서 대기중'))
+    console.log(app.get('port'), '번 포트에서 대기중')
 })
