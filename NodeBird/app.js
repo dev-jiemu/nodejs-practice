@@ -8,6 +8,7 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 const pageRouter = require('./routes/page')
+const { sequelize } = require('/models')
 
 const app = express()
 app.set('port', process.env.PORT || 8001)
@@ -15,6 +16,11 @@ app.set('view engine', 'html')
 nunjucks.configure('views', {
     express: app,
     watch: true,
+})
+sequelize.sync({force:false}).then(() => {
+    console.log('database connect success')
+}).catch((err) => {
+    console.log(err)
 })
 
 app.use(morgan('dev'))
