@@ -5,15 +5,12 @@ const path = require('path')
 const session = require('express-session')
 const nunjucks = require('nunjucks')
 const dotenv = require('dotenv')
-const passport = require('passport')
 
 dotenv.config()
 const pageRouter = require('./routes/page')
-const { sequelize } = require('./models')
-const passportConfig = require('./passport')
+const { sequelize } = require('/models')
 
 const app = express()
-passportConfig()
 app.set('port', process.env.PORT || 8001)
 app.set('view engine', 'html')
 nunjucks.configure('views', {
@@ -40,8 +37,6 @@ app.use(session({
         secure: false,
     },
 }))
-app.use(passport.initialize())
-app.use(passport.session())
 
 app.use('/', pageRouter)
 
