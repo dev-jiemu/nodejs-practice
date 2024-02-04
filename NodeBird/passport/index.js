@@ -14,7 +14,11 @@ module.exports = () => {
 // passport.session 미들웨어가 호출하는 메서드: 호출할때마다 유저가 있는지 검사함
 passport.deserializeUser((id, done) => {
     User.findOne({
-        where: { id }
+        where: { id },
+        include: [
+            {model: User, attributes: ['id', 'nick'], as: 'Followers'}, // 팔로잉, 팔로워 목록도 조회
+            {model: User, attributes: ['id', 'nick'], as: 'Followings'},
+        ]
     })
         .then(user => done(null, user))
         .catch(err => done(err))
