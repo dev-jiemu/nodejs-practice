@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
 
 class User extends Sequelize.Model {
     static initiate(sequelize) {
@@ -38,7 +38,7 @@ class User extends Sequelize.Model {
     }
 
     static associate(db) {
-        db.User.hasMany(db.Post);
+        db.User.hasMany(db.Post)
         db.User.belongsToMany(db.User, {
             foreignKey: 'followingId',
             as: 'Followers',

@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
 
 class Domain extends Sequelize.Model {
     static initiate(sequelize) {
