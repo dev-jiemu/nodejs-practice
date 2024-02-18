@@ -13,6 +13,7 @@ const indexRouter = require('./routes')
 const { sequelize } = require('./models')
 const passportConfig = require('./passport')
 const v1 = require('/routes/v1')
+const v2 = require('/routes/v2')
 const authRouter = require('/routes/auth')
 
 const app = express()
@@ -52,6 +53,7 @@ app.use('/auth', authRouter)
 app.use('/', indexRouter)
 
 app.use('/v1', v1)
+app.use('/v2', v2)
 app.use('/auth', authRouter)
 
 app.use((req, res, next) => {
