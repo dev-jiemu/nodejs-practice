@@ -71,3 +71,12 @@ exports.corsWhenDomainMatches = async (req, res, next) => {
         next()
     }
 }
+
+exports.apiLimiter = rateLimit({
+    windowMs: 60 * 1000, max: 1, handler(req, res) {
+        res.status(this.statusCode).json({
+            code: this.statusCode,
+            message: '1분에 한 번만 요청할 수 있습니다',
+        })
+    }
+})
