@@ -7,8 +7,8 @@ const nunjucks = require('nunjucks')
 const dotenv = require('dotenv')
 
 dotenv.config()
-const webSocket = require('./socket') // web-socket
-const indexRouter = require('/routes')
+const webSocket = require('./socket/socket') // web-socket
+const indexRouter = require('./routes')
 
 const app = express()
 app.set('port', process.env.PORT || 8005)
@@ -42,12 +42,14 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    res.locals.message = err.message;
+    res.locals.message = err.message
     res.locals.error = process.env.NODE_ENV !== 'production' ? err : {}
     res.status(err.status || 500)
     res.render('error')
 })
 
-app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번 포트에서 대기중')
 })
+
+webSocket(server)
