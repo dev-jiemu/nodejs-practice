@@ -4,7 +4,7 @@ const path = require('path')
 const fs = require('fs')
 
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares')
-const { renderMain, renderJoin, renderGood, createGood } = require('../controllers')
+const { renderMain, renderJoin, renderGood, createGood, renderAuction, bid } = require('../controllers')
 
 const router = express.Router()
 
@@ -12,10 +12,6 @@ router.use((req, res, next) => {
     res.locals.user = req.user
     next()
 })
-
-router.get('/', renderMain)
-router.get('/join', isNotLoggedIn, renderJoin)
-router.get('/good', isLoggedIn, renderGood)
 
 try {
     fs.readdirSync('uploads')
@@ -37,6 +33,12 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 },
 })
 
+router.get('/', renderMain)
+router.get('/join', isNotLoggedIn, renderJoin)
 router.post('/good', isLoggedIn, upload.single('img'), createGood)
+router.get('/good', isLoggedIn, renderGood)
+
+router.get('/good/:id', isLoggedIn, renderAuction)
+router.get('/good/:id/bid', isLoggedIn, bid)
 
 module.exports = router
