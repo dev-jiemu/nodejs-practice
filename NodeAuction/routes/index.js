@@ -4,7 +4,7 @@ const path = require('path')
 const fs = require('fs')
 
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares')
-const { renderMain, renderJoin, renderGood, createGood, renderAuction, bid } = require('../controllers')
+const { renderMain, renderJoin, renderGood, createGood, renderAuction, bid, renderList } = require('../controllers')
 
 const router = express.Router()
 
@@ -40,5 +40,7 @@ router.get('/good', isLoggedIn, renderGood)
 
 router.get('/good/:id', isLoggedIn, renderAuction)
 router.get('/good/:id/bid', isLoggedIn, bid)
+
+router.get('/list', isLoggedIn, renderList)
 
 module.exports = router
